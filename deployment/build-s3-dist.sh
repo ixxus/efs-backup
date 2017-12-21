@@ -2,8 +2,8 @@
 
 # Check to see if input has been provided:
 if [ -z "$1" ]; then
-    echo "Please provide the base source bucket name where the lambda code, bucket name where template will eventually reside and the version number."
-    echo "Example: `basename $0` solutions templates v1.0"
+    echo "Please provide the base source bucket name / URL where the lambda code, bucket name where template will eventually reside and the version number."
+    echo "Example: `basename $0` solutions https://your-template-bucket-name.s3.amazonaws.com v1.0"
     exit 1
 fi
 
@@ -27,7 +27,7 @@ echo "sed -i '' -e $replace deployment/dist/efs-to-efs-restore.template"
 sed -i '' -e $replace deployment/dist/efs-to-efs-restore.template
 
 echo "Updating template bucket in the template and scripts with $2"
-replace="s/%TEMPLATE_BUCKET_NAME%/$2/g"
+replace="s#%TEMPLATE_BUCKET_URL%#$2#g"
 echo "sed -i '' -e $replace deployment/dist/efs-to-efs-backup.template"
 sed -i '' -e $replace deployment/dist/efs-to-efs-backup.template
 echo "sed -i '' -e $replace deployment/dist/efs-to-efs-restore.template"
